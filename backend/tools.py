@@ -43,7 +43,7 @@ def query_medgemma(prompt: str) -> str:
 
 # Step2: Setup Twilio calling API tool
 from twilio.rest import Client
-from config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER, EMERGENCY_CONTACT
+from backend.config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER, EMERGENCY_CONTACT
 
 def call_emergency():
     client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
