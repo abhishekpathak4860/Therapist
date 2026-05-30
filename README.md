@@ -1,29 +1,113 @@
-AI Mental Health Therapist – SafeSpace
+# 🧠 SafeSpace – AI Mental Health Support Assistant
 
-Your compassionate AI companion for emotional support, built with care and real-world tools. SafeSpace listens, understands, and responds with empathy — and knows when to escalate to emergency help.
+SafeSpace is an AI-powered mental health support assistant designed to provide empathetic conversations, emotional guidance, and access to helpful resources. The project combines Large Language Models (LLMs), AI Agents, and real-world tools to create a supportive and responsive user experience.
 
-Equipped with an AI agent architecture, specialist healthcare models (MedGemma), and life-saving tools like emergency calling via Twilio, SafeSpace is designed to support mental well-being — safely and responsibly.
+## ✨ Features
 
-▶️ Watch the Setup Video 🎥 How to Build SafeSpace – Full Tutorial: 
+- 🤖 AI Agent powered by LangChain and LangGraph
+- 💬 Mental health support conversations
+- 🏥 Therapist recommendation tool
+- 📞 Emergency assistance integration with Twilio
+- ⚡ Fast responses using Groq LLMs
+- 🌐 FastAPI backend
+- 🎨 Streamlit frontend
+- 🔧 Tool calling and agent-based decision making
 
-🚀 Quick Start
+## 🛠️ Tech Stack
 
-Clone the repo and run:
+### Backend
+
+- Python
+- FastAPI
+- LangChain
+- LangGraph
+- Groq
+- Twilio
+
+### Frontend
+
+- Streamlit
+
+### AI & Agent Framework
+
+- LangChain Tools
+- ReAct Agent Architecture
+- Large Language Models (LLMs)
+
+## 🚀 Installation
+
+Clone the repository:
+
+```bash
+git clone <your-repository-url>
+cd safespace-ai-therapist
 ```
-git clone https://github.com/AIwithhassan/safespace-ai-therapist.git
-```
 
-# Setup UV if not already: 
+Install dependencies:
 
-https://www.youtube.com/watch?v=Dgf7Lp0B_hI
-
-```
+```bash
 uv sync
 ```
 
+## ▶️ Run the Backend
 
-That’s it. This command:
+```bash
+uv run uvicorn backend.main:app --reload
+```
 
-Creates a virtual environment (if needed)
-Installs all dependencies from uv.lock
-Sets up the full environment exactly as intended# Therapist
+Backend will start at:
+
+```text
+http://127.0.0.1:8000
+```
+
+## ▶️ Run the Frontend
+
+```bash
+uv run streamlit run frontend.py
+```
+
+## 📂 Project Structure
+
+```text
+safespace-ai-therapist/
+│
+├── backend/
+│   ├── ai_agent.py
+│   ├── config.py
+│   ├── tools.py
+│   └── main.py
+│
+├── frontend.py
+├── pyproject.toml
+├── uv.lock
+└── README.md
+```
+
+## 🔐 Environment Variables
+
+Store API keys securely and never commit them to GitHub.
+
+Example:
+
+```env
+GROQ_API_KEY=your_api_key
+TWILIO_ACCOUNT_SID=your_sid
+TWILIO_AUTH_TOKEN=your_token
+TWILIO_FROM_NUMBER=your_number
+EMERGENCY_CONTACT=your_contact
+```
+
+## 📌 Future Improvements
+
+- Real therapist search using Google Maps API
+- Conversation memory
+- WhatsApp integration
+- Multi-language support
+- Crisis detection and escalation workflows
+
+## 👨‍💻 Author
+
+Abhishek Pathak
+
+B.Tech CSE Student | MERN Stack Developer | AI Enthusiast
