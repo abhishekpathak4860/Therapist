@@ -1,5 +1,15 @@
 # Step1: Setup Ollama with Medgemma tool
 import ollama
+from langchain_groq import ChatGroq
+from backend.config import GROQ_API_KEY 
+
+# Initialize Groq LLM once
+llm = ChatGroq(
+    model="openai/gpt-oss-120b",
+    temperature=0.7,
+    api_key=GROQ_API_KEY
+)
+
 
 def query_medgemma(prompt: str) -> str:
     """
@@ -23,20 +33,29 @@ def query_medgemma(prompt: str) -> str:
     - Always keep the conversation going by asking open ended questions to dive into the root cause of patients problem
     """
     
+    # try:
+        # response = ollama.chat(
+        #     model='alibayram/medgemma:4b',
+        #     messages=[
+        #         {"role": "system", "content": system_prompt},
+        #         {"role": "user", "content": prompt}
+        #     ],
+        #     options={
+        #         'num_predict': 350,  # Slightly higher for structured responses
+        #         'temperature': 0.7,  # Balanced creativity/accuracy
+        #         'top_p': 0.9        # For diverse but relevant responses
+        #     }
+        # )
+        # return response['message']['content'].strip()
     try:
-        response = ollama.chat(
-            model='alibayram/medgemma:4b',
-            messages=[
+        response = llm.invoke(
+            [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt}
-            ],
-            options={
-                'num_predict': 350,  # Slightly higher for structured responses
-                'temperature': 0.7,  # Balanced creativity/accuracy
-                'top_p': 0.9        # For diverse but relevant responses
-            }
+            ]
         )
-        return response['message']['content'].strip()
+
+        return response.content.strip()
     except Exception as e:
         return f"I'm having technical difficulties, but I want you to know your feelings matter. Please try again shortly."
 
