@@ -17,8 +17,8 @@ class Query(BaseModel):
 async def ask(query: Query):
     inputs = {"messages": [("system", SYSTEM_PROMPT), ("user", query.message)]}
     #inputs = {"messages": [("user", query.message)]}
-    stream = graph.stream(inputs, stream_mode="updates")
-    tool_called_name, final_response = parse_response(stream)
+    stream = graph.astream(inputs, stream_mode="updates")
+    tool_called_name, final_response =await parse_response(stream)
 
     # Step3: Send response to the frontend
     return {"response": final_response,
