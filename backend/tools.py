@@ -98,21 +98,21 @@ async def fetch_nearby_therapists(location_name: str) -> str:
         try:
             geocode_response = await client.get(geocode_url, params=geocode_params, timeout=10.0)
             
-            # 🚨 DEBUG PRINT 2: Check Geocoding status
-            print(f"🌍 Geocode API Status Code: {geocode_response.status_code}")
+            #  DEBUG PRINT 2: Check Geocoding status
+            print(f" Geocode API Status Code: {geocode_response.status_code}")
             
             if geocode_response.status_code != 200:
-                print("❌ FAILED AT GEOCODING API")
+                print(" FAILED AT GEOCODING API")
                 return "Unable to resolve the location coordinates at the moment."
             
             geocode_data = geocode_response.json()
             if not geocode_data.get("features"):
-                print("❌ GEOCODING RETURNED 0 RESULTS")
+                print("GEOCODING RETURNED 0 RESULTS")
                 return f"Could not find any location coordinates corresponding to '{location_name}'."
                 
             coords = geocode_data["features"][0]["geometry"]["coordinates"]
             lon, lat = coords[0], coords[1]
-            print(f"📍 Coordinates found: Lon={lon}, Lat={lat}")
+            print(f" Coordinates found: Lon={lon}, Lat={lat}")
             
             # 2. Places Discovery Phase
             places_url = "https://api.geoapify.com/v2/places"
@@ -132,23 +132,23 @@ async def fetch_nearby_therapists(location_name: str) -> str:
             # We must use httpx's internal URL encoding, but tell it not to mess with commas
             places_response = await client.get(places_url, params=places_params, timeout=10.0)
             
-            # 🚨 DEBUG PRINT 3: Check Places status
-            print(f"🏥 Places API Status Code: {places_response.status_code}")
+            #  DEBUG PRINT 3: Check Places status
+            print(f" Places API Status Code: {places_response.status_code}")
             
             # Print the actual URL httpx generated so we can see if it mangled it
-            print(f"🔗 Requested URL: {places_response.request.url}")
+            print(f" Requested URL: {places_response.request.url}")
             
             if places_response.status_code != 200:
-                print("❌ FAILED AT PLACES API")
+                print("FAILED AT PLACES API")
                 # Print the exact error message Geoapify sent back!
-                print(f"🛑 Geoapify Error: {places_response.text}")
+                print(f" Geoapify Error: {places_response.text}")
                 return "Successfully located coordinates, but failed to fetch nearby medical centers."
                 
             places_data = places_response.json()
             places = places_data.get("features", [])
             
             if not places:
-                print("❌ PLACES API RETURNED 0 HOSPITALS/CLINICS")
+                print(" PLACES API RETURNED 0 HOSPITALS/CLINICS")
                 return f"Coordinates located for {location_name}, but no healthcare centers were found within a 5km radius."
                 
             # 3. Compile clean plaintext report
@@ -160,14 +160,14 @@ async def fetch_nearby_therapists(location_name: str) -> str:
                 distance = props.get("distance", "Unknown")
                 result_lines.append(f"- Name: {name}, Distance: {distance} meters away, Address: {address}")
                 
-            # 🚨 DEBUG PRINT 4: Total Success!
-            print("✅ SUCCESS! Data found:")
+            #  DEBUG PRINT 4: Total Success!
+            print("SUCCESS! Data found:")
             print("\n".join(result_lines))
             print("--------------------------\n")
             
             return "\n".join(result_lines)
 
         except Exception as e:
-            # 🚨 DEBUG PRINT 5: Code crashed!
-            print(f"💥 CRASH EXCEPTION: {str(e)}")
+            # DEBUG PRINT 5: Code crashed!
+            print(f" CRASH EXCEPTION: {str(e)}")
             return f"An unexpected network or extraction error occurred while searching: {str(e)}"
